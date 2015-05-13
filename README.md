@@ -2,13 +2,21 @@
 Web app where you try to guess the subreddit based on pulled comments
 
 System to run on - AWS free tier Linux for now EC2
+
 OS - Linux
+
 MySQL - database
+
 Apache - web host
+
 Python - db interfacing, reddit crawler
+
 UI - HTML/CSS/python or javascript
+
 SCM - Git
+
 SCM web - GitHub
+
 Domain - maybe guessthatsubreddit.com
 
 AWS: http://aws.amazon.com/free/ 
