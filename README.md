@@ -21,6 +21,12 @@ Domain - maybe guessthatsubreddit.com
 
 AWS: http://aws.amazon.com/free/ 
 
+Remote connect AWS: https://aws.amazon.com/premiumsupport/knowledge-center/connect-to-linux-desktop-from-windows/
+
+Python web dev: https://docs.python.org/2/howto/webservers.html
+
+Django Python: https://www.djangoproject.com/start/overview/
+
 Setting up AWS: https://www.youtube.com/watch?v=wNr7YqjjzOY
 
 LAMP on AWS: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-LAMP.html 
