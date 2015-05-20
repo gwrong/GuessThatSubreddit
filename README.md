@@ -21,6 +21,8 @@ Domain - maybe guessthatsubreddit.com
 
 AWS: http://aws.amazon.com/free/ 
 
+Setting up AWS: https://www.youtube.com/watch?v=wNr7YqjjzOY
+
 LAMP on AWS: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-LAMP.html 
 
 Domain name:
