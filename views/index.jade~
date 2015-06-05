@@ -4,6 +4,6 @@ html(lang="en")
          | Title
    body
       p
-         | Welcome username 
+         | Welcome username
          a(href="/signout", title="sign out")
             | sign out

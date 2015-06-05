@@ -1,50 +1,94 @@
-
-/**
- * Module dependencies.
- */
-var path = require('path');
+// test
+// vendor libraries
 var express = require('express');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var bcrypt = require('bcrypt-nodejs');
+var jade = require('jade');
+var path = require('path');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+// custom libraries
+// routes
+var route = require('./route');
+// model
+var Model = require('./model');
+
 var app = express();
-var port = process.env.PORT || 80;
 
+passport.use(new LocalStrategy(function(username, password, done) {
+   new Model.User({username: username}).fetch().then(function(data) {
+      var user = data;
+      if(user === null) {
+         return done(null, false, {message: 'Invalid username or password'});
+      } else {
+         user = data.toJSON();
+         if(!bcrypt.compareSync(password, user.password)) {
+            return done(null, false, {message: 'Invalid username or password'});
+         } else {
+            return done(null, user);
+         }
+      }
+   });
+}));
 
-//Config
-
-var bodyParser = require('body-parser')
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-})); 
-//app.use(express.urlencoded());
-
-var router = express.Router();
-
-router.get('/', function(req, res) {
-    res.redirect('/home');
+passport.serializeUser(function(user, done) {
+  done(null, user.username);
 });
 
-
-router.get('/home', function(req, res) {
-    res.sendFile(path.join(__dirname, '/html', '/home.html'));
+passport.deserializeUser(function(username, done) {
+   new Model.User({username: username}).fetch().then(function(user) {
+      done(null, user);
+   });
 });
 
-router.post('/home', function(req, res) {
-    var username = req.body.username;
-    console.log(username);
-});
+app.set('port', process.env.PORT || 80);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(session({
+    secret: 'secret strategic xxzzz code',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-router.get('/about', function(req, res) {
-    res.sendFile(path.join(__dirname, '/html', '/about.html'));
-});
+// GET
+app.get('/', route.index);
 
-// Routes
+// signin
+// GET
+app.get('/signin', route.signIn);
+// POST
+app.post('/signin', route.signInPost);
 
-app.use('/', router);
+// signup
+// GET
+app.get('/signup', route.signUp);
+// POST
+app.post('/signup', route.signUpPost);
 
-app.listen(port);
-console.log('Port 80');
+// logout
+// GET
+app.get('/signout', route.signOut);
 
-app.use(function(req, res){
-    res.sendStatus(404);
+/********************************/
+
+/********************************/
+// 404 not found
+app.use(route.notFound404);
+
+var server = app.listen(app.get('port'), function(err) {
+   if(err) throw err;
+
+   var message = 'Server is running @ http://localhost:' + server.address().port;
+   console.log(message);
 });

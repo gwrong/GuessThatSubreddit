@@ -1,0 +1,20 @@
+html(lang="en")
+   head
+      title
+          | title
+   body
+      h2
+          | Sign In Form
+      form(method="post", action="/signin")
+         p
+            label(for="username")
+                | username
+            input(type="text", name="username", id="username", placeholder="username", required="true")
+         p
+            label(for="password")
+                | password
+            input(type="text", name="password", id="password", placeholder="password", required="true")
+         p
+            input(type="submit", name="signin", id="signin", value="sign in")
+            a(href="/signup", title="register")
+                | register

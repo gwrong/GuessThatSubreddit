@@ -1,0 +1,10 @@
+<!--
+   Page (404) Not Found
+-->
+html(lang="en")
+   head
+      title
+          | title
+   body
+      h1
+          | title
