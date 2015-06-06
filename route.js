@@ -1,6 +1,22 @@
 // vendor library
 var passport = require('passport');
 var bcrypt = require('bcrypt-nodejs');
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'masked_password2',
+  multipleStatements: true
+});
+
+connection.connect(function(err){
+if(!err) {
+    console.log("Database is connected ... \n\n");  
+} else {
+    console.log("Error connecting database ... \n\n");  
+}
+});
+
 
 // custom library
 // model
@@ -99,6 +115,23 @@ var signOut = function(req, res, next) {
    }
 };
 
+// guess
+// GET
+var guess = function(req, res, next) {
+   if(!req.isAuthenticated()) return res.redirect('/');
+   connection.query('use reddit; call proc_get_random_comment();', function(err, rows, fields) {
+      if (!err) {
+         console.log(rows[1][0].body);
+         return res.render('guess', {text: rows[1][0].body, subreddit: rows[1][0].subreddit});
+      }
+      else {
+         console.log(err)
+         return res.render('guess', {text: 'error'});
+      }
+   });
+};
+
+
 
 // 404 not found
 var notFound404 = function(req, res, next) {
@@ -126,6 +159,9 @@ module.exports.signUpPost = signUpPost;
 
 // sign out
 module.exports.signOut = signOut;
+
+// guess
+module.exports.guess = guess;
 
 // 404 not found
 module.exports.notFound404 = notFound404;

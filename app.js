@@ -80,6 +80,10 @@ app.post('/signup', route.signUpPost);
 // GET
 app.get('/signout', route.signOut);
 
+// guess
+// GET
+app.get('/guess', route.guess);
+
 /********************************/
 
 /********************************/
