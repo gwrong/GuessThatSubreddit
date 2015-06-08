@@ -83,6 +83,9 @@ app.get('/signout', route.signOut);
 // guess
 // GET
 app.get('/guess', route.guess);
+// POST
+app.post('/guess', route.guessPost);
+
 
 /********************************/
 

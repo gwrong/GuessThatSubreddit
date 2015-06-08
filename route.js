@@ -2,6 +2,7 @@
 var passport = require('passport');
 var bcrypt = require('bcrypt-nodejs');
 var mysql      = require('mysql');
+var util = require('./reddit_scraper/util')
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -119,19 +120,34 @@ var signOut = function(req, res, next) {
 // GET
 var guess = function(req, res, next) {
    if(!req.isAuthenticated()) return res.redirect('/');
+   var guessValues = {}
    connection.query('use reddit; call proc_get_random_comment();', function(err, rows, fields) {
       if (!err) {
-         console.log(rows[1][0].body);
-         return res.render('guess', {text: rows[1][0].body, subreddit: rows[1][0].subreddit});
+         //console.log(rows[1][0].body);
+         var guessComment = rows[1][0].body;
+         var guessSubreddit = rows[1][0].subreddit
+         guessValues["comment"] = guessComment;
+         guessValues["subreddit"] = guessSubreddit;
+         util.getRandomSubreddits(guessSubreddit, function (err, guessSubreddits) {
+            util.shuffleArray(guessSubreddits);
+            guessValues["guessSubreddits"] = guessSubreddits;
+            return res.render('guess', guessValues);
+         });
       }
       else {
          console.log(err)
-         return res.render('guess', {text: 'error'});
+         guessValues["comment"] = 'error';
+         return res.render('guess', guessValues);
       }
    });
 };
 
 
+// guess
+// POST
+var guessPost = function(req, res, next) {
+   console.log('you made it');
+};
 
 // 404 not found
 var notFound404 = function(req, res, next) {
@@ -161,7 +177,10 @@ module.exports.signUpPost = signUpPost;
 module.exports.signOut = signOut;
 
 // guess
+//GET
 module.exports.guess = guess;
+// POST
+module.exports.guessPost = guessPost;
 
 // 404 not found
 module.exports.notFound404 = notFound404;

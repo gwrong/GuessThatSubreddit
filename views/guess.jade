@@ -1,10 +1,26 @@
 html(lang="en")
    head
       title
-          | title
+         | title
    body
       h2
-          | Guess
-      p.
-         text = #{locals.text}
-         subreddit = #{locals.subreddit}
+         | Guess
+      p
+         |comment
+         = ' ' + locals.comment
+         |subreddit
+         = ' ' + locals.subreddit
+         
+      form(method="post", action="/guess")
+         each subreddit, index in locals.guessSubreddits
+            unless index
+               label(for="subreddit")=subreddit
+               input(type="radio", name="subreddit2", id="subreddit2", checked)
+               br
+               br
+            else
+               label(for="subreddit")=subreddit
+               input(type="radio", name="subreddit2", id="subreddit2")
+               br
+               br
+         input(type="submit", name="guess", id="guess", value="Guess!")
