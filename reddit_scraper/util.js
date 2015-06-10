@@ -10,12 +10,18 @@ function getRandomSubreddits(notThisSubreddit, callback){
       if(err) throw err;
       var lines = data.toString().split('\n');
       for (i = 0; i < 3; i++) {
-         randomSubreddit = lines[Math.floor(Math.random()*lines.length)];
+         randomNum = Math.floor(Math.random()*(lines.length - 1));
+         console.log(randomNum);
+         randomSubreddit = lines[randomNum];
+         console.log('random: ' + randomSubreddit);
          while (contains(randomSubreddits, randomSubreddit)) {
-            randomSubreddit = lines[Math.floor(Math.random()*lines.length)];
+            randomNum = Math.floor(Math.random()*(lines.length - 1))
+            console.log(randomNum);
+            randomSubreddit = lines[randomNum];
          }
          randomSubreddits.push(randomSubreddit);
       }
+   console.log(randomSubreddits);
    return callback(null, randomSubreddits);
    })
 }

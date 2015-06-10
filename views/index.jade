@@ -4,8 +4,11 @@ html(lang="en")
          | Title
    body
       p
-         | Welcome username 
+         | Welcome
+         = ' ' + locals.user
+         br
          a(href="/signout", title="sign out")
             | sign out
+         br
          a(href="/guess", title="guess")
             | guess

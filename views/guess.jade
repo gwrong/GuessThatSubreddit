@@ -3,24 +3,26 @@ html(lang="en")
       title
          | title
    body
+      script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+
       h2
          | Guess
       p
-         |comment
+         |Comment:
          = ' ' + locals.comment
-         |subreddit
-         = ' ' + locals.subreddit
+         br
+         | Subreddit: ?
          
-      form(method="post", action="/guess")
+      form(id="guessForm", method="post", action="/guess")
          each subreddit, index in locals.guessSubreddits
             unless index
-               label(for="subreddit")=subreddit
-               input(type="radio", name="subreddit2", id="subreddit2", checked)
+               label(for="subreddit" + index)=subreddit
+               input(type="radio", name="subredditGuess", id="subreddit" + index, value="" + subreddit, checked)
                br
                br
             else
-               label(for="subreddit")=subreddit
-               input(type="radio", name="subreddit2", id="subreddit2")
+               label(for="subreddit" + index)=subreddit
+               input(type="radio", name="subredditGuess", id="subreddit" + index, value="" + subreddit)
                br
                br
          input(type="submit", name="guess", id="guess", value="Guess!")

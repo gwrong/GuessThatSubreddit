@@ -14,7 +14,10 @@ html(lang="en")
             label(for="password")
                 | password
             input(type="text", name="password", id="password", placeholder="password", required="true")
+         p  
+            font(color="red") #{locals.errorMessage}
          p
             input(type="submit", name="signin", id="signin", value="sign in")
+            | &nbsp;
             a(href="/signup", title="register")
                 | register

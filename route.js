@@ -34,7 +34,7 @@ var index = function(req, res, next) {
       if(user !== undefined) {
          user = user.toJSON();
       }
-      res.render('index', {title: 'Home', user: user});
+      res.render('index', {title: 'Home', user: user["username"]});
    }
 };
 
@@ -126,6 +126,7 @@ var guess = function(req, res, next) {
          //console.log(rows[1][0].body);
          var guessComment = rows[1][0].body;
          var guessSubreddit = rows[1][0].subreddit
+         req.session.subredditAnswer = guessSubreddit
          guessValues["comment"] = guessComment;
          guessValues["subreddit"] = guessSubreddit;
          util.getRandomSubreddits(guessSubreddit, function (err, guessSubreddits) {
@@ -146,8 +147,17 @@ var guess = function(req, res, next) {
 // guess
 // POST
 var guessPost = function(req, res, next) {
-   console.log('you made it');
+   guess = req.body.subredditGuess;
+   answer = req.session.subredditAnswer;
+   if (guess === answer) {
+      res.render('result', {message: 'You correctly chose ' + answer + ' as the subreddit!'})
+   } else {
+      res.render('result', {message: 'Sorry, but that comment was acutally from the ' + answer + ' subreddit!'})
+   }
+   console.log(req.session.subredditAnswer);
+   console.log(req.body.subredditGuess);
 };
+
 
 // 404 not found
 var notFound404 = function(req, res, next) {

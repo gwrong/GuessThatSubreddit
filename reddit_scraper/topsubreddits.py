@@ -21,5 +21,9 @@ while (x < len(final) - 1):
     
 out = open('top100subreddits' + time.strftime("%Y%m%d-%H%M%S") + '.txt', 'w')
     
-for x in pairs:
-    out.write(x[0] + '\n')
+for x in range(len(pairs)):
+    if ((x + 1) == len(pairs)):
+        out.write(pairs[x][0])
+    else:
+        out.write(pairs[x][0] + '\n')
+out.close()
