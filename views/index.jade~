@@ -1,9 +1,0 @@
-html(lang="en")
-   head
-      title
-         | Title
-   body
-      p
-         | Welcome username
-         a(href="/signout", title="sign out")
-            | sign out
